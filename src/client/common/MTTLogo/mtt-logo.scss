@@ -1,0 +1,13 @@
+@import '../../assets/sass/colors.scss';
+
+.mtt-logo {
+    .mtt-logo-svg {
+        width: 9rem;
+        height: 5rem;
+        background: url('../../assets/images/mtg-logo-black.svg') center center no-repeat;
+
+        // &:hover {
+        //     background: url('../../assets/images/mtg-logo-green.svg') center center no-repeat;
+        // }
+    }
+}

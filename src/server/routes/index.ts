@@ -8,7 +8,11 @@ export default (app, settings) => {
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         next();
     });
+    ////////////////////////////
+
+    
+
+    ////////////////////////////
     app.use(express.static(path.join(__dirname, "../public")));
     app.use('/', router);
-
 }

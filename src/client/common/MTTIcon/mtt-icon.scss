@@ -1,0 +1,30 @@
+@import '../../assets/sass/colors.scss';
+
+@mixin mttIcon($name) {
+    background-image: url("../../assets/images/#{$name}.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+@mixin mttLogo($color) {
+    width: 9rem;
+    height: 5rem;
+    background-image: url("../../assets/images/mtg-logo-#{$color}.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.mtt-icon {
+    .under-construction {
+        height: 5rem;
+        width: 5rem;
+        @include mttIcon('under-construction')
+    }
+    .mtg-logo-black {
+        @include mttLogo('black');
+    }
+
+    .mtg-logo-green {
+        @include mttLogo('green');
+    }
+}

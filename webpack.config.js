@@ -45,6 +45,10 @@ const clientConfig = {
                 loader: "html-loader"
             },
             {
+                test: /\.svg$/,
+                loader: "url-loader"
+            },
+            {
                 test: /\.(s*)css$/,
                 use: [
                     'style-loader',
