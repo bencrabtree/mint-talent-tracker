@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "outDir": "./dist",
+        "resolveJsonModule": true,
+        "strict": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "esModuleInterop": true,
+        "types": [
+            "node", "express"
+        ]
+    },
+    "lib": [
+        "es5",
+        "es6"
+    ],
+    "target": "ES2017",
+    // "moduleResolution": "node",
+    "sourceMap": true,
+    "include": [
+        "src/server/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

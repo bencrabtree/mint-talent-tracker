@@ -2,6 +2,9 @@ import http from 'http';
 import expressSession from 'express-session';
 import app from './app';
 import settings from './config/settings.json';
+import "reflect-metadata";
+import { createConnection, ConnectionOptions, getRepository, createQueryBuilder } from "typeorm";
+import { Client, Collection, User, Notes, Lead } from "./entity/";
 
 const start = async () => {
     let session = expressSession({
@@ -10,6 +13,17 @@ const start = async () => {
         saveUninitialized: false,
         unset: 'destroy'
     });
+
+    await createConnection({
+        type: "postgres",
+        port: settings.db.port,
+        username: settings.db.username,
+        database: settings.db.name,
+        password: settings.db.password,
+        host: settings.db.endpoint,
+        entityPrefix: settings.db.schema + '.',
+        entities: [ User, Client, Lead, Collection, Notes ]
+    } as ConnectionOptions);
 
     const app_ = app(settings, session);
     let server = http.createServer(app_);
