@@ -5,7 +5,7 @@ export default class UserService {
     constructor() {}
 
     //
-    getUserByEmail = async (email: string) => {
+    getUserByEmail = async (email: string): Promise<User> => {
         try {
             let user: User = await getRepository(User).findOne(email);
             return user;
@@ -15,7 +15,7 @@ export default class UserService {
     }
 
     //
-    getUserById = async (id: number) => {
+    getUserById = async (id: number): Promise<User> => {
         try {
             let user: User = await getRepository(User).findOne(id);
             return user;

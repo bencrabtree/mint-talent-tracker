@@ -12,7 +12,7 @@ const MTTLink = ({ href, children }) => {
 
 MTTLink.propTypes = {
     href: PropTypes.string.isRequired,
-    children: PropTypes.node.isrequired
+    children: PropTypes.node.isRequired
 }
 
 export default MTTLink;

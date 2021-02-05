@@ -4,6 +4,17 @@ import { Collection } from '.';
 @Entity()
 export class Client extends BaseEntity {
 
+    constructor(params) {
+        super();
+
+        if (params) {
+            this.first_name = params.first_name;
+            this.last_name = params.last_name;
+            this.photo_uri = params.photo_uri;
+            this.description = params.description;
+        }
+    }
+
     @PrimaryGeneratedColumn()
     id: number;
 

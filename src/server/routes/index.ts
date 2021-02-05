@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
 const path = require("path");
+import ClientController from '../controllers/ClientController';
 
 export default (app, settings) => {
     const router = Router();
@@ -10,7 +11,8 @@ export default (app, settings) => {
     });
     ////////////////////////////
 
-    
+    router.get('/roster/all', ClientController.getFullRoster);
+    router.put('/roster/add', ClientController.addClient)
 
     ////////////////////////////
     app.use(express.static(path.join(__dirname, "../public")));

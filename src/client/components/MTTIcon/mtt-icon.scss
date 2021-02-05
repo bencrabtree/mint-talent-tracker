@@ -1,9 +1,11 @@
 @import '../../assets/sass/colors.scss';
 
-@mixin mttIcon($name) {
+@mixin mttIcon($name, $height:2, $width:2) {
     background-image: url("../../assets/images/#{$name}.svg");
     background-position: center;
     background-repeat: no-repeat;
+    height: #{$height}rem;
+    width: #{$width}rem;
 }
 
 @mixin mttLogo($color) {
@@ -15,16 +17,33 @@
 }
 
 .mtt-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    &.round {
+        border-radius: 50%;
+    }
+
     .under-construction {
-        height: 5rem;
-        width: 5rem;
-        @include mttIcon('under-construction')
+        @include mttIcon('under-construction', 5, 5)
     }
     .mtg-logo-black {
         @include mttLogo('black');
     }
-
     .mtg-logo-green {
         @include mttLogo('green');
+    }
+    .search-icon {
+        @include mttIcon('search-icon');
+    }
+    .default-avatar {
+        @include mttIcon('default-avatar');
+    }
+    .settings {
+        @include mttIcon('settings');
+    }
+    .add-icon {
+        @include mttIcon('add-icon')
     }
 }

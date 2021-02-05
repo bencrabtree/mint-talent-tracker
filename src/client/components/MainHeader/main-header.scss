@@ -1,0 +1,32 @@
+@import '../../assets/sass/colors.scss';
+
+.main-header {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 4px rgba(0,0,0,.25);
+    position: fixed;
+    width: 100%;
+    box-sizing: border-box;
+
+    .action-bar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .mtt-icon {
+            background: $backgroundGrey;
+            margin: .5rem;
+            cursor: pointer;
+            height: fit-content;
+            padding: .5rem;
+
+            &:hover {
+                background: darken($backgroundGrey, 5%);
+            }
+        }
+    }
+}

@@ -1,16 +1,53 @@
 import { User, Client, Lead } from '../entity';
 import { getRepository } from "typeorm";
 
-export default class ClientService {
+class ClientService {
     constructor() {}
 
     //
-    getClientById = async (id: number) => {
+    getAll = async (): Promise<Client[]> => {
+        try {
+            let roster = await getRepository(Client).find();
+            return roster;
+        } catch (error) {
+            console.log("ClientService: GetAll:", error);
+            return null;
+        }
+    }
+
+    //
+    getClientById = async (id: number): Promise<Client> => {
         try {
             let client = await getRepository(Client).findOne(id);
             return client;
-        } catch (err) {
-            console.log('ClientService, getClientById:', err)
+        } catch (error) {
+            console.log('ClientService: GetClientById:', error);
+            return null;
+        }
+    }
+
+    //
+    removeClientById = async (id: number): Promise<void> => {
+        try {
+            let client = await getRepository(Client).findOne(id);
+            await getRepository(Client).remove(client);
+        } catch (error) {
+            console.log("ClientService: RemoveClientById:", error);
+            return null;
+        }
+    }
+
+    //
+    addClient = async (client: Partial<Client>): Promise<Client> => {
+        try {
+            let clientToAdd = new Client(client);
+            await getRepository(Client).save(clientToAdd);
+            return clientToAdd;
+        } catch (error) {
+            console.log('ClientService: AddClient:', error);
+            return null;
         }
     }
 }
+
+export const clientService = new ClientService();
