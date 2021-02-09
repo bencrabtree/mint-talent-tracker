@@ -5,7 +5,7 @@ import './mtt-logo.scss';
 const MTTLogo = ({ onClick }) => {
 
     return (
-        <div className='mtt-logo' onClick={ onClick }>
+        <div className={`mtt-logo ${ onClick ? 'clickable' : ''}`} onClick={ onClick }>
             <div className='mtt-logo-svg' />
         </div>
     )

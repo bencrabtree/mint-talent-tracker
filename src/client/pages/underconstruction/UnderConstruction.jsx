@@ -1,6 +1,6 @@
 import React from 'react';
-import MTTIcon from '../../components/MTTIcon/MTTIcon';
-import MTTLink from '../../components/MTTLink/MTTLink';
+import MTTIcon from '../../components/common/MTTIcon/MTTIcon';
+import MTTLink from '../../components/common/MTTLink/MTTLink';
 import './under-construction.scss';
 
 const UnderConstruction = () => {

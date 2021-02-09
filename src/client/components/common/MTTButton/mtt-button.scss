@@ -1,0 +1,18 @@
+@import '../../../assets/sass/colors.scss';
+
+.mtt-button {
+    margin: .5rem 1rem;
+
+    .MuiButton-root {
+        padding: .5rem 1rem;
+    }
+
+    &.primary .MuiButton-root {
+        background-color: $backgroundDarkGrey;
+
+        &:hover {
+            background-color: darken($backgroundDarkGrey, 2%);
+        }
+    }
+
+}

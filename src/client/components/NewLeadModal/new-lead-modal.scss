@@ -1,0 +1,27 @@
+@import '../../assets/sass/colors.scss';
+
+.new-lead-modal-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.new-lead-modal-content {
+    height: 70vh;
+    width: 50vw;
+    background-color: $backgroundLightGrey;
+    padding: 2rem;
+    position: relative;
+    padding-bottom: 6rem;
+}
+
+.new-lead-modal-footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 1rem 2rem;
+}
