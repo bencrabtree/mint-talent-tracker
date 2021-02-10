@@ -4,7 +4,7 @@ import app from './app';
 import settings from './config/settings.json';
 import "reflect-metadata";
 import { createConnection, ConnectionOptions, getRepository, createQueryBuilder } from "typeorm";
-import { Client, Collection, User, Notes, Lead } from "./entity/";
+import { Client, Photo, Tag, User, Notes, Lead } from "./dao";
 
 const start = async () => {
     let session = expressSession({
@@ -22,7 +22,8 @@ const start = async () => {
         password: settings.db.password,
         host: settings.db.endpoint,
         entityPrefix: settings.db.schema + '.',
-        entities: [ User, Client, Lead, Collection, Notes ]
+        entities: [ User, Client, Lead, Photo, Notes, Tag ],
+        synchronize: true
     } as ConnectionOptions);
 
     const app_ = app(settings, session);

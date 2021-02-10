@@ -12,7 +12,37 @@ const SearchBar = ({ placeholder, onSubmit, onAddNewLead }) => {
     const filter = createFilterOptions();
     const fullRoster = [
         { full_name: "Benjamin Crabtree", something: 'hello' },
-        { full_name: "Derek Jeter", something: 'whatever' }
+        { full_name: "Derek Jeter", something: 'whatever' },
+        { full_name: "Benjamin Crabtree", something: 'hello' },
+        { full_name: "Derek Jeter", something: 'whatever' },
+        { full_name: "Benjamin Crabtree", something: 'hello' },
+        { full_name: "Derek Jeter", something: 'whatever' },
+        { full_name: "Benjamin Crabtree", something: 'hello' },
+        { full_name: "Derek Jeter", something: 'whatever' },
+        { full_name: "Benjamin Crabtree", something: 'hello' },
+        { full_name: "Derek Jeter", something: 'whatever' },
+        { full_name: "Benjamin Crabtree", something: 'hello' },
+        { full_name: "Derek Jeter", something: 'whatever' },
+        { full_name: "Benjamin Crabtree", something: 'hello' },
+        { full_name: "Derek Jeter", something: 'whatever' },
+        { full_name: "Benjamin Crabtree", something: 'hello' },
+        { full_name: "Derek Jeter", something: 'whatever' },
+        { full_name: "Benjamin Crabtree", something: 'hello' },
+        { full_name: "Derek Jeter", something: 'whatever' },
+        { full_name: "Benjamin Crabtree", something: 'hello' },
+        { full_name: "Derek Jeter", something: 'whatever' },
+        { full_name: "Benjamin Crabtree", something: 'hello' },
+        { full_name: "Derek Jeter", something: 'whatever' },
+        { full_name: "Benjamin Crabtree", something: 'hello' },
+        { full_name: "Derek Jeter", something: 'whatever' },
+        { full_name: "Benjamin Crabtree", something: 'hello' },
+        { full_name: "Derek Jeter", something: 'whatever' },
+        { full_name: "Benjamin Crabtree", something: 'hello' },
+        { full_name: "Derek Jeter", something: 'whatever' },
+        { full_name: "Benjamin Crabtree", something: 'hello' },
+        { full_name: "Derek Jeter", something: 'whatever' },
+        { full_name: "Benjamin Crabtree", something: 'hello' },
+        { full_name: "Derek Jeter", something: 'whatever' },
     ]
 
     /**

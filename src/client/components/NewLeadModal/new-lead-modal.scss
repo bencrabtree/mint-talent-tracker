@@ -14,6 +14,10 @@
     padding: 2rem;
     position: relative;
     padding-bottom: 6rem;
+
+    h1 {
+        margin-bottom: 1rem;
+    }
 }
 
 .new-lead-modal-footer {
@@ -24,4 +28,20 @@
     flex-direction: row;
     justify-content: flex-end;
     padding: 1rem 2rem;
+}
+
+.new-lead-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 1rem 2rem;
+    padding-top: 0;
+    height: 90%;
+    overflow: auto;
+}
+
+.new-lead-inputs {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
 }

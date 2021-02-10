@@ -1,0 +1,31 @@
+@import '../../../assets/sass/colors.scss';
+
+.mtt-input {
+    display: flex;
+    flex-direction: column;
+    margin: .5rem 0rem;
+
+    label {
+        font-size: .85rem;
+    }
+
+    input {
+        padding: .25rem;
+        font-size: 1rem;
+    }
+
+    textarea {
+        padding: .25rem;
+        font-size: 1rem;
+    }
+
+    &.invalid {
+        label {
+            color: red;
+        }
+
+        input {
+            border-color: red;
+        }
+    }
+}

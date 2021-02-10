@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { User, Client, Lead } from '../entity';
+import { User, Client, Lead } from '../dao';
 
 export default class UserService {
     constructor() {}

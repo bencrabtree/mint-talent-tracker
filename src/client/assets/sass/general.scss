@@ -6,10 +6,13 @@ html, body {
     font-size: 1rem;
     background: $backgroundGrey;
     margin: 0;
-    font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
 
-h1, h2, h3, h4, h5 {
+html, body, textarea {
+    font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;;
+}
+
+h1, h2, h3, h4, h5, p {
     margin: 0;
 }
 

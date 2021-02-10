@@ -1,4 +1,4 @@
-import { User, Client, Lead } from '../entity';
+import { User, Client, Lead } from '../dao';
 import { getRepository } from "typeorm";
 
 class ClientService {
@@ -38,13 +38,25 @@ class ClientService {
     }
 
     //
-    addClient = async (client: Partial<Client>): Promise<Client> => {
+    addClient = async (client: object): Promise<Client> => {
         try {
+            console.log(client)
             let clientToAdd = new Client(client);
             await getRepository(Client).save(clientToAdd);
             return clientToAdd;
         } catch (error) {
             console.log('ClientService: AddClient:', error);
+            return null;
+        }
+    }
+
+    //
+    getModel = async () => {
+        try {
+            let clientModel = new Client();
+            return clientModel.toEditableArray()
+        } catch (error) {
+            console.log("ClientService: GetModel:", error);
             return null;
         }
     }

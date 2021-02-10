@@ -5,7 +5,8 @@ const AppContext = createContext([{}, () => {}]);
 
 const AppContextProvider = ({ children }) => {
     const [ state, setState ] = useState({
-        fullRoster: []
+        fullRoster: [],
+        allTags: []
     });
 
     useEffect(() => {
@@ -13,9 +14,11 @@ const AppContextProvider = ({ children }) => {
         const loadData = async () => {
             try {
                 const { data: roster } = await http.get('/roster/all');
+                const { data: tags } = await http.get('/tags/all');
 
                 setState({
-                    fullRoster: roster
+                    fullRoster: roster,
+                    allTags: tags
                 })
             } catch (error) {
                 console.log("Unable to set UserState:", error)

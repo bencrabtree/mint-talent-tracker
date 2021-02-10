@@ -11,7 +11,7 @@ export class Lead extends BaseEntity {
     client_id: number;
 
     @Column("integer", { array: true })
-    @ManyToOne(type => User, user => user.id)
+    @OneToMany(type => User, user => user.id)
     user_id: number[];
 
     @Column("character varying")
@@ -24,6 +24,6 @@ export class Lead extends BaseEntity {
     updated_on;
 
     @Column("integer")
-    @OneToMany(type => User, user => user.id)
+    @ManyToOne(type => User, user => user.id)
     updated_by: number;
 }

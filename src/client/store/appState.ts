@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { AppContext } from './appContext';
 import Client from '../models/Client';
+import { cloneDeep } from 'lodash';
 import { http } from '../util/api';
 
 const useAppState = () => {
@@ -8,9 +9,12 @@ const useAppState = () => {
 
     const addNewClient = async (client: Client) => {
         try {
-            let { status } = await http.put('/roster/add', client);
+            const { data, status } = await http.put('/roster/new', client);
             if (status === 200) {
                 console.log("AddNewClient: Success:", status);
+                let tempRoster = cloneDeep(state.fullRoster);
+                tempRoster.push(data);
+                setState(state => ({ ...state, fullRoster: tempRoster }));
                 return true;
             } else {
                 console.log("AddNewClient: BadResponse:", status)
@@ -23,6 +27,7 @@ const useAppState = () => {
 
     return {
         fullRoster: state.fullRoster,
+        allTags: state.allTags,
         addNewClient
     }
 }
