@@ -9,10 +9,11 @@ import MTTIcon from '../common/MTTIcon/MTTIcon';
 import { Menu, MenuItem } from '@material-ui/core';
 import { http } from '../../util/api';
 import { useAppState } from '../../store';
+import MTTButton from '../common/MTTButton/MTTButton';
 
 const MainHeader = ({ }) => {
     const history = useHistory();
-    const { addNewClient, fullRoster } = useAppState();
+    const { addNewClient, userProfile } = useAppState();
     const [ userMenuRef, setUserMenuRef ] = useState();
     const [ searchAddArtist, setSearchAddArtist ] = useState();
     const [ newLeadModalIsOpen, setNewLeadModalIsOpen ] = useState(false);
@@ -21,6 +22,11 @@ const MainHeader = ({ }) => {
         if (history.location.pathname != '/home') {
             history.push("/home")
         }
+    }
+
+    const handleUserLogout = async () => {
+        await http.get('/auth/signout');
+        history.push('/auth/isLoggedOut')
     }
 
     const onAddNewLead = (leadEntry) => {
@@ -58,9 +64,16 @@ const MainHeader = ({ }) => {
             <MTTLogo onClick={ navigateBackHome } />
             <SearchBar onSubmit={ handleSearchBarSubmit } onAddNewLead={ onAddNewLead } />
             <div className='action-bar'>
-                <MTTIcon type="add-icon" style="round" onClick={() => setNewLeadModalIsOpen(true)} />
-                <MTTIcon type="settings" style="round" />
-                <MTTIcon type="default-avatar" style="round" onClick={ handleUserMenuToggle } />
+                <MTTButton
+                    label="New Lead"
+                    onClick={ () => setNewLeadModalIsOpen(true) }
+                    color="primary"
+                />
+                <span className='divider-bar' />
+                <div className='user-profile-dropdown' onClick={ handleUserMenuToggle }>
+                    <MTTIcon type="default-avatar" style="round" />
+                    <h1>{ userProfile.first_name }</h1>
+                </div>
                 <Menu
                     id="simple-menu"
                     anchorEl={userMenuRef}
@@ -68,9 +81,10 @@ const MainHeader = ({ }) => {
                     open={Boolean(userMenuRef)}
                     onClose={handleUserMenuClose}
                 >
-                    <MenuItem onClick={handleUserMenuClose}>My profile</MenuItem>
-                    <MenuItem onClick={handleUserMenuClose}>My agents</MenuItem>
-                    <MenuItem onClick={handleUserMenuClose}>Logout</MenuItem>
+                    <MenuItem onClick={handleUserMenuClose}>Preferences</MenuItem>
+                    <MenuItem onClick={handleUserMenuClose}>My roster</MenuItem>
+                    <MenuItem onClick={handleUserMenuClose}>Calendar</MenuItem>
+                    <MenuItem onClick={handleUserLogout}>Logout</MenuItem>
                 </Menu>
             </div>
             <NewLeadModal

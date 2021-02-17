@@ -4,15 +4,23 @@
     margin: .5rem 1rem;
 
     .MuiButton-root {
-        padding: .5rem 1rem;
+        padding: .5rem 1.5rem;
+        text-transform: none;
+        font-size: 1rem;
     }
 
     &.primary .MuiButton-root {
-        background-color: $backgroundDarkGrey;
+        cursor: pointer;
+        color: white;
+        background-color: $mintGreen;
 
         &:hover {
-            background-color: darken($backgroundDarkGrey, 2%);
+            background-color: darken($mintGreen, 5%);
         }
     }
 
+    &.disabled {
+        cursor: not-allowed;
+        pointer-events: none;
+    }
 }

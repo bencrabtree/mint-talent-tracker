@@ -5,6 +5,7 @@ const AppContext = createContext([{}, () => {}]);
 
 const AppContextProvider = ({ children }) => {
     const [ state, setState ] = useState({
+        userProfile: {},
         fullRoster: [],
         allTags: []
     });
@@ -13,10 +14,12 @@ const AppContextProvider = ({ children }) => {
 
         const loadData = async () => {
             try {
+                const { data: user } = await http.get('/user/current');
                 const { data: roster } = await http.get('/roster/all');
                 const { data: tags } = await http.get('/tags/all');
 
                 setState({
+                    userProfile: user,
                     fullRoster: roster,
                     allTags: tags
                 })

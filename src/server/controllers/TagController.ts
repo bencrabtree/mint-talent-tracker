@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Tag } from '../dao';
+import { Tag } from '../../shared/dao';
 import { tagService } from '../services/tag.service';
 
 const getAll = async (req: Request, res: Response) => {

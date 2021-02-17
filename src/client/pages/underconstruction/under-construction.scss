@@ -1,13 +1,13 @@
 @import '../../assets/sass/colors.scss';
 
-.under-construction {
+.non-home-div {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     background: radial-gradient($backgroundLightGrey, darken($backgroundGrey, 20));
 
-    .under-construction-body {
+    .non-home-body {
         display: flex;
         flex-direction: column;
         margin: 0 auto;

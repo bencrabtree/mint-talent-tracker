@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { Tag } from '../dao';
+import { Tag } from '../../shared/dao';
 
 class TagService {
     constructor() {}

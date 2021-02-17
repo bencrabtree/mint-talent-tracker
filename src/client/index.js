@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter as Router, Route } from 'react-router-dom';
-import { UnderConstruction, Home } from './pages';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { UnderConstruction, Home, NotAuthorized } from './pages';
 import './assets/sass/general.scss';
 import { AppContextProvider } from './store/appContext';
 
@@ -14,6 +14,14 @@ const Root = () => {
                 </Route>
                 <Route path="/home">
                     <Home />
+                </Route>
+                <Route path="/auth/error">
+                    <NotAuthorized />
+                </Route>
+                <Route path="/auth/isLoggedOut">
+                    <div>
+                        You are now logged out
+                    </div>
                 </Route>
             </Router>
         </AppContextProvider>

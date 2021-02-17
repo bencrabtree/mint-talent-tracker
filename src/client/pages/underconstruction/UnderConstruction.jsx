@@ -6,8 +6,8 @@ import './under-construction.scss';
 const UnderConstruction = () => {
 
     return (
-        <div className='under-construction'>
-            <div className='under-construction-body'>
+        <div className='non-home-div'>
+            <div className='non-home-body'>
                 <MTTIcon type='under-construction' />
                 <h1>This site is under contruction.</h1>
                 <h2>Come back later to see what we're building!</h2>

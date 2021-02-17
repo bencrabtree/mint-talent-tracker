@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Client } from '../dao';
+import { Client } from '../../shared/dao';
 import { clientService } from '../services/client.service';
 
 const getFullRoster = async (req: Request, res: Response) => {

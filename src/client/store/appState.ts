@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { AppContext } from './appContext';
-import Client from '../models/Client';
+import { Client } from '../../shared/dao';
 import { cloneDeep } from 'lodash';
 import { http } from '../util/api';
 
@@ -26,6 +26,7 @@ const useAppState = () => {
     }
 
     return {
+        userProfile: state.userProfile,
         fullRoster: state.fullRoster,
         allTags: state.allTags,
         addNewClient

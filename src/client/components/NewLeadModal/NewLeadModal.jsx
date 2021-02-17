@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './new-lead-modal.scss';
 import { useAppState } from '../../store';
 import { Modal, TextField, Chip } from '@material-ui/core';
+import MTTModal from '../common/MTTModal/MTTModal';
 import { Autocomplete } from '@material-ui/lab';
 import MTTButton from '../common/MTTButton/MTTButton';
 import MTTLoading from '../common/MTTLoading/MTTLoading';
@@ -149,18 +150,6 @@ const NewLeadModal = ({
         )
     }
 
-    /**
-     * 
-     */
-    const renderNewLeadForm = () => {
-        return (
-            <div className='new-lead-form'>
-                { generateNewLeadForm() }
-                { generateNewLeadExtras() }
-            </div>
-        )
-    }
-
     const renderContent = () => {
         if (loading) {
             return (
@@ -170,27 +159,26 @@ const NewLeadModal = ({
             )
         } else {
             return (
-                <div className="new-lead-modal-content">
-                    <h1>Add New Lead</h1>
-                    { renderNewLeadForm() }
-                    <div className='new-lead-modal-footer'>
-                        <MTTButton label="Save" onClick={handleSubmit} />
-                        <MTTButton label="Cancel" onClick={handleClose} />
-                    </div>
+                <div className='new-lead-form'>
+                    { generateNewLeadForm() }
+                    { generateNewLeadExtras() }
                 </div>
             )
         }
     }
 
     return (
-            <Modal
-                open={isOpen}
+            <MTTModal
+                isOpen={isOpen}
                 onClose={onClose}
-                className='new-lead-modal-wrapper'
-                disableBackdropClick
-            >
-                { renderContent() }
-            </Modal>
+                disableBackdropClick={true}
+                title="Add New Lead"
+                content={renderContent()}
+                footerElts={[
+                    <MTTButton label="Save" onClick={handleSubmit} disabled={true} />,
+                    <MTTButton label="Cancel" onClick={handleClose} />
+                ]}
+            />
     )
 }
 

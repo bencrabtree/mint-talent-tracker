@@ -8,13 +8,15 @@ const MTTButton = ({
     onClick,
     startIcon,
     endIcon,
-    color
+    color,
+    disabled
 }) => {
     return (
-        <div className={`mtt-button ${color}`} onClick={onClick}>
+        <div className={`mtt-button ${color} ${disabled ? 'disabled' : 'active'}`} onClick={onClick}>
             <Button
                 startIcon={ startIcon }
                 endIcon={ endIcon }
+                disabled={disabled}
             >
                 { label }
             </Button>
@@ -31,11 +33,13 @@ MTTButton.propTypes = {
         'primary',
         'secondary',
         'tertiary'
-    ])
+    ]),
+    disabled: PropTypes.bool
 }
 
 MTTButton.defaultProps = {
-    color: 'primary'
+    color: 'primary',
+    disabled: false
 }
 
 export default MTTButton;
