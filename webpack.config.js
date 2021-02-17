@@ -2,7 +2,7 @@ const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
 const serverConfig = {
-    mode: 'development',
+    // mode: process.env.NODE_ENV,
     entry: ['regenerator-runtime/runtime', './src/server/index.ts'],
     module: {
         rules: [
@@ -29,7 +29,7 @@ const serverConfig = {
 };
 
 const clientConfig = {
-    mode: 'development',
+    // mode: process.env.NODE_ENV,
     target: 'web',
     entry: [ 'babel-polyfill', './src/client/index.js' ],
     devtool: 'source-map',

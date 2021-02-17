@@ -13,10 +13,11 @@ export default function(settings: any) {
     const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
     const GOOGLE_CLIENT_ID = settings.auth.clientId;
     const GOOGLE_CLIENT_SECRET = settings.auth.clientSecret;
+    console.log(process.env.NODE_ENV, process.env.NODE_ENV === 'none' ? settings.auth.devRedirect : settings.auth.prodRedirect)
     passport.use(new GoogleStrategy({
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: "http://localhost:3000/auth/callback"
+        callbackURL: process.env.NODE_ENV === 'none' ? settings.auth.devRedirect : settings.auth.prodRedirect
     },
         async (accessToken, refreshToken, profile, done) => {
             try {

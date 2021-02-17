@@ -8,11 +8,11 @@
       "node": true
    },
    "scripts": {
-      "dev": "npm run copy-templates && cross-env NODE_ENV=development npm-run-all --parallel watch:*",
+      "dev": "npm run copy-templates && cross-env NODE_ENV=none npm-run-all --parallel watch:*",
       "copy-templates": "copyfiles --up 2 \"./src/client/index.html\" ./public",
       "watch:server": "nodemon dist/index.js",
-      "watch:client": "npx webpack -w",
-      "start": "ts-node src/index.ts"
+      "watch:client": "npx webpack -w --mode=none",
+      "start": "cross-env NODE_ENV=production node dist/index.js"
    },
    "nodemonConfig": {
       "ignore": [
