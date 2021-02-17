@@ -4,6 +4,7 @@ import { Photo } from './Photo';
 import { Lead } from './Lead';
 import { Notes } from './Notes';
 import { Tag } from './Tag';
+import { File } from './File';
 
 export {
     User,
@@ -11,5 +12,6 @@ export {
     Photo,
     Lead,
     Notes,
-    Tag
+    Tag,
+    File
 }
