@@ -1,8 +1,9 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
+const webpack = require('webpack')
 
 const serverConfig = {
-    // mode: process.env.NODE_ENV,
+    mode: process.env.NODE_ENV,
     entry: ['regenerator-runtime/runtime', './src/server/index.ts'],
     module: {
         rules: [
@@ -29,7 +30,7 @@ const serverConfig = {
 };
 
 const clientConfig = {
-    // mode: process.env.NODE_ENV,
+    mode: process.env.NODE_ENV,
     target: 'web',
     entry: [ 'babel-polyfill', './src/client/index.js' ],
     devtool: 'source-map',
@@ -67,7 +68,12 @@ const clientConfig = {
     output: {
         filename: 'app.js',
         path: path.resolve(__dirname, 'public/js')
-    }
+    },
+    plugins: [
+        new webpack.ProvidePlugin({
+               process: 'process/browser',
+        }),
+    ]
 }
 
 module.exports = [ serverConfig, clientConfig ];
