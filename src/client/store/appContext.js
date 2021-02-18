@@ -5,6 +5,7 @@ const AppContext = createContext([{}, () => {}]);
 
 const AppContextProvider = ({ children }) => {
     const [ state, setState ] = useState({
+        loading: true,
         userProfile: {},
         fullRoster: [],
         allTags: []
@@ -21,7 +22,8 @@ const AppContextProvider = ({ children }) => {
                 setState({
                     userProfile: user,
                     fullRoster: roster,
-                    allTags: tags
+                    allTags: tags,
+                    loading: false
                 })
             } catch (error) {
                 console.log("Unable to set UserState:", error)

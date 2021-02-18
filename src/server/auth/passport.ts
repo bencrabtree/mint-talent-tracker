@@ -29,7 +29,6 @@ export default function(settings: any) {
                 let user: User = await userService.getUserByEmail(email);
                 if (user) {
                     userProfile = await userService.updateUser(email, { last_login: new Date() });
-                    console.log("Logging in", userProfile)
                 // } else if (email) {
                 //     userProfile = await userService.createUser(email, profile.name.givenName, profile.name.familyName, profile.photos[0].value)
                 //     console.log("Creating User", userProfile)
@@ -54,11 +53,10 @@ export default function(settings: any) {
                 }
                 return token
             },
-            secretOrKey: 'my-secrey-key'
+            secretOrKey: 'my-secret-key'
         },
         async (payload, cb) => {
             let user: User = await userService.getUserByEmail(payload.email);
-            console.log(payload, user)
             if (user) {
                 return cb(null, user);
             } else {

@@ -7,7 +7,7 @@ import NewLeadModal from '../../components/NewLeadModal/NewLeadModal';
 import SearchBar from '../SearchBar/SearchBar';
 import MTTIcon from '../common/MTTIcon/MTTIcon';
 import { Menu, MenuItem } from '@material-ui/core';
-import { http } from '../../util/api';
+import { getSession, logOut } from '../../util/jwt';
 import { useAppState } from '../../store';
 import MTTButton from '../common/MTTButton/MTTButton';
 
@@ -19,14 +19,18 @@ const MainHeader = ({ }) => {
     const [ newLeadModalIsOpen, setNewLeadModalIsOpen ] = useState(false);
 
     const navigateBackHome = () => {
-        if (history.location.pathname != '/home') {
-            history.push("/home")
-        }
+        history.push("/")
     }
 
     const handleUserLogout = async () => {
-        await http.get('/auth/signout');
-        history.push('/auth/isLoggedOut')
+        logOut();
+        history.push('/');
+        history.go(0)
+    }
+
+    const handleUserLogin = () => {
+        history.push('/auth/signin');
+        history.go(0)
     }
 
     const onAddNewLead = (leadEntry) => {
@@ -72,7 +76,7 @@ const MainHeader = ({ }) => {
                 <span className='divider-bar' />
                 <div className='user-profile-dropdown' onClick={ handleUserMenuToggle }>
                     <MTTIcon type="default-avatar" style="round" />
-                    { userProfile && <h1>{ userProfile.first_name }</h1> }
+                    <h1>{ userProfile.first_name || 'Guest' }</h1>
                 </div>
                 <Menu
                     id="simple-menu"
@@ -84,7 +88,11 @@ const MainHeader = ({ }) => {
                     <MenuItem onClick={handleUserMenuClose}>Preferences</MenuItem>
                     <MenuItem onClick={handleUserMenuClose}>My roster</MenuItem>
                     <MenuItem onClick={handleUserMenuClose}>Calendar</MenuItem>
-                    <MenuItem onClick={handleUserLogout}>Logout</MenuItem>
+                    {
+                        getSession() ? 
+                        <MenuItem onClick={handleUserLogout}>Logout</MenuItem> :
+                        <MenuItem onClick={handleUserLogin}>Login</MenuItem>
+                    }
                 </Menu>
             </div>
             <NewLeadModal

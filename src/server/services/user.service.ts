@@ -1,14 +1,19 @@
+import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import { User, Client, Lead } from '../../shared/dao';
-import { userProfile } from '../auth/passport';
+const jwt = require('jsonwebtoken');
 
 class UserService {
     constructor() {}
 
-    getLoggedInUser = async (): Promise<User> => {
+    getLoggedInUser = async (req: Request): Promise<User> => {
         try {
-            let user: User = await getRepository(User).findOne({ email: userProfile?.email });
-            return user;
+            if (req.cookies.jwt) {
+                const decrypt = await jwt.verify(req.cookies.jwt, 'my-secret-key');
+                let user: User = await getRepository(User).findOne({ email: decrypt.email });
+                return user;
+            }
+            return null;
         } catch (error) {
             console.log('UserService, getLoggedInUser:', error)
         }

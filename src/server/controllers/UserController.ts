@@ -4,7 +4,7 @@ import { userService } from '../services/user.service';
 
 const getLoggedInUser = async (req: Request, res: Response) => {
     try {
-        let user = await userService.getLoggedInUser();
+        let user = await userService.getLoggedInUser(req);
         res.status(200).send(user);
     } catch (error) {
         console.log("UserController: getLoggedInUser:", error);

@@ -26,6 +26,7 @@ const useAppState = () => {
     }
 
     return {
+        loading: state.loading,
         userProfile: state.userProfile,
         fullRoster: state.fullRoster,
         allTags: state.allTags,

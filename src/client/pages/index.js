@@ -1,5 +1,5 @@
 import UnderConstruction from './underconstruction/UnderConstruction';
-import Home from './home/Home';
+import App from './app/App';
 import NotAuthorized from './notauthorized/NotAuthorized';
 
-export { UnderConstruction, Home, NotAuthorized };
+export { UnderConstruction, App, NotAuthorized };
