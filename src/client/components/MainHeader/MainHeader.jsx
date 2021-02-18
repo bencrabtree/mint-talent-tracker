@@ -72,7 +72,7 @@ const MainHeader = ({ }) => {
                 <span className='divider-bar' />
                 <div className='user-profile-dropdown' onClick={ handleUserMenuToggle }>
                     <MTTIcon type="default-avatar" style="round" />
-                    <h1>{ userProfile.first_name }</h1>
+                    { userProfile && <h1>{ userProfile.first_name }</h1> }
                 </div>
                 <Menu
                     id="simple-menu"

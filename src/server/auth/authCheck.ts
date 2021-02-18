@@ -1,7 +1,22 @@
-export async function isAuth(req, res, next) {
-    if (req.isAuthenticated() || req.url.startsWith('/auth') || req.originalUrl.startsWith('/js/app.js')) {
-        return next();
-    } else {
-        res.redirect('/auth/signin');
+const jwt = require('jsonwebtoken');
+
+export async function isAuth(req, res, next) {        
+    const token = req.cookies['jwt'] || '';
+    console.log()
+    console.log(req.url)
+    try {
+        if (req.url.startsWith('/auth') || req.url.startsWith('/js/app.js')) {
+            return next();
+        } else if (!token) {
+            return res.redirect('/auth/signin')
+        } else {
+            const decrypt = await jwt.verify(token, 'my-secret-key');
+            req.user = decrypt.email;
+            console.log('decrypt', decrypt)
+            return next();
+        }
+
+    } catch (err) {
+        return res.status(500).json(err.toString());
     }
 }

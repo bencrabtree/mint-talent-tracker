@@ -2,68 +2,43 @@ import express, { Router } from 'express';
 const path = require("path");
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
+import auth from './auth';
 import cors from 'cors';
 import { isAuth } from '../auth/authCheck';
 import ClientController from '../controllers/ClientController';
 import TagController from '../controllers/TagController';
 import UserController from '../controllers/UserController';
-import { clearUsersession } from '../auth/passport';
 
-export default (app, googleAuth) => {
+export default (app, passport) => {
     const router = Router();
 
     app.use((req, res, next) => {
-        // res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+        // res.header('Content-Type', 'text/plain')
         next();
     });
-    app.use(cors());
     app.use(cookieParser());
     app.use(bodyParser.json({ limit: '50mb' }));
     app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-    app.use(googleAuth.initialize());
-    app.use(googleAuth.session());
-    app.get('*', isAuth);
+    app.use(passport.initialize());
+    app.use(passport.session());
+    // app.get('*', isAuth);
+    app.use(cors({ origin: true, credentials: true }));
     app.use(express.static(path.join(__dirname, "../public")));
     //////////////////////////// AUTH ROUTES
-    router.get('/auth/signin', 
-        (req, res, next) => {
-            try {
-                googleAuth.authenticate('google', { scope : ['profile', 'email'] })(req, res, next)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-    );
-    
-    router.get('/auth/callback', 
-        (req, res, next) => {
-            try {
-                googleAuth.authenticate('google', { failureRedirect: '/auth/error' })(req, res, next)
-            } catch (error) {
-                console.log('callback error', error)
-            }
-        },
-        (req, res) => res.redirect('/home')
-    );
-
-    router.get('/auth/signout',
-        (req, res) => {
-            console.log('Signing Out');
-            clearUsersession();
-            req.logout();
-            res.redirect("/auth/isLoggedOut");
-        }
-    )
+    const authRoutes = auth(passport);
+    app.use('/auth', authRoutes);
     ////////////////////////////
 
-    router.get('/roster/all', isAuth, ClientController.getFullRoster);
-    router.put('/roster/new', isAuth, ClientController.addClient);
-    router.get('/roster/new-lead-model', isAuth, ClientController.getNewLeadModel);
+    router.get('/roster/all', ClientController.getFullRoster);
+    router.put('/roster/new', passport.authenticate('jwt', { session: false }), ClientController.addClient);
+    router.get('/roster/new-lead-model', passport.authenticate('jwt', { session: false }), ClientController.getNewLeadModel);
 
-    router.get('/tags/all', isAuth, TagController.getAll);
+    router.get('/tags/all', TagController.getAll);
 
-    router.get('/user/current', isAuth, UserController.getLoggedInUser)
+    router.get('/user/current', UserController.getLoggedInUser)
 
     ////////////////////////////
     app.use('/', router);

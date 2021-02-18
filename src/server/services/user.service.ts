@@ -7,7 +7,7 @@ class UserService {
 
     getLoggedInUser = async (): Promise<User> => {
         try {
-            let user: User = await getRepository(User).findOne({ email: userProfile.email });
+            let user: User = await getRepository(User).findOne({ email: userProfile?.email });
             return user;
         } catch (error) {
             console.log('UserService, getLoggedInUser:', error)

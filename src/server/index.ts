@@ -26,8 +26,8 @@ const start = async () => {
         synchronize: true
     } as ConnectionOptions);
 
-    const app_ = app(settings, session);
-    let server = http.createServer(app_);
+    const _app = app(settings, session);
+    const server = http.createServer(_app);
 
     server.listen(settings.port, () => {
         console.log(`\nRunning on port ${settings.port}`);

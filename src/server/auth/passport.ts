@@ -2,7 +2,7 @@
 import { getRepository } from 'typeorm';
 import { User } from '../../shared/dao';
 import { userService } from "../services/user.service";
-const passport = require('passport');
+export const passport = require('passport');
 export let userProfile: User;
 
 export const clearUsersession = () => {
@@ -11,14 +11,18 @@ export const clearUsersession = () => {
 
 export default function(settings: any) {
     const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+    const JWTStrategy = require('passport-jwt').Strategy;
+    const ExtractJwt = require('passport-jwt').ExtractJwt;
     const GOOGLE_CLIENT_ID = settings.auth.clientId;
     const GOOGLE_CLIENT_SECRET = settings.auth.clientSecret;
     console.log(process.env.NODE_ENV, process.env.NODE_ENV === 'none' ? settings.auth.devRedirect : settings.auth.prodRedirect)
-    passport.use(new GoogleStrategy({
-        clientID: GOOGLE_CLIENT_ID,
-        clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: process.env.NODE_ENV === 'none' ? settings.auth.devRedirect : settings.auth.prodRedirect
-    },
+    //
+    passport.use(new GoogleStrategy(
+        {
+            clientID: GOOGLE_CLIENT_ID,
+            clientSecret: GOOGLE_CLIENT_SECRET,
+            callbackURL: process.env.NODE_ENV === 'none' ? settings.auth.devRedirect : settings.auth.prodRedirect
+        },
         async (accessToken, refreshToken, profile, done) => {
             try {
                 let email = profile.emails.filter(x => x.verified)[0]?.value
@@ -36,6 +40,30 @@ export default function(settings: any) {
                 console.log("Error creating user session:", error)
             }
             return done(null, userProfile);
+        }
+    ));
+    //
+    passport.use(new JWTStrategy(
+        {
+            jwtFromRequest: function(req) { // tell passport to read JWT from cookies
+                var token = null;
+                console.log('jwtFromRequest', req.url)
+                if (req && req.cookies){
+                    console.log(req.cookies)
+                    token = req.cookies['jwt']
+                }
+                return token
+            },
+            secretOrKey: 'my-secrey-key'
+        },
+        async (payload, cb) => {
+            let user: User = await userService.getUserByEmail(payload.email);
+            console.log(payload, user)
+            if (user) {
+                return cb(null, user);
+            } else {
+                return cb('Error authenticating user', false)
+            }
         }
     ));
 
