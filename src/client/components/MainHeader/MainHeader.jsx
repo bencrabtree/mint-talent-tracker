@@ -63,6 +63,37 @@ const MainHeader = ({ }) => {
         setUserMenuRef(null);
     }
 
+    const renderMenu = () => {
+        if (getSession()) {
+            return (
+                <Menu
+                    id="main-menu"
+                    anchorEl={userMenuRef}
+                    keepMounted
+                    open={Boolean(userMenuRef)}
+                    onClose={handleUserMenuClose}
+                >
+                    <MenuItem onClick={handleUserMenuClose}>Preferences</MenuItem>
+                    <MenuItem onClick={handleUserMenuClose}>My roster</MenuItem>
+                    <MenuItem onClick={handleUserMenuClose}>Calendar</MenuItem>
+                    <MenuItem onClick={handleUserLogout}>Logout</MenuItem>
+                </Menu>
+            )
+        } else {
+            return (
+                <Menu
+                    id="main-menu"
+                    anchorEl={userMenuRef}
+                    keepMounted
+                    open={Boolean(userMenuRef)}
+                    onClose={handleUserMenuClose}
+                >
+                    <MenuItem onClick={handleUserLogin}>Login with Google</MenuItem>
+                </Menu>
+            )
+        }
+    }
+
     return (
         <div className='main-header'>
             <MTTLogo onClick={ navigateBackHome } />
@@ -78,22 +109,7 @@ const MainHeader = ({ }) => {
                     <MTTIcon type="default-avatar" style="round" />
                     <h1>{ userProfile.first_name || 'Guest' }</h1>
                 </div>
-                <Menu
-                    id="simple-menu"
-                    anchorEl={userMenuRef}
-                    keepMounted
-                    open={Boolean(userMenuRef)}
-                    onClose={handleUserMenuClose}
-                >
-                    <MenuItem onClick={handleUserMenuClose}>Preferences</MenuItem>
-                    <MenuItem onClick={handleUserMenuClose}>My roster</MenuItem>
-                    <MenuItem onClick={handleUserMenuClose}>Calendar</MenuItem>
-                    {
-                        getSession() ? 
-                        <MenuItem onClick={handleUserLogout}>Logout</MenuItem> :
-                        <MenuItem onClick={handleUserLogin}>Login</MenuItem>
-                    }
-                </Menu>
+                { renderMenu() }
             </div>
             <NewLeadModal
                 artistName={searchAddArtist}

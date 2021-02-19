@@ -8,7 +8,7 @@ import ClientController from '../controllers/ClientController';
 import TagController from '../controllers/TagController';
 import UserController from '../controllers/UserController';
 
-export default (app, passport) => {
+export default (app, passport, settings) => {
     const router = Router();
 
     app.use((req, res, next) => {
@@ -26,7 +26,7 @@ export default (app, passport) => {
     app.use(cors({ origin: true, credentials: true }));
     app.use(express.static(path.join(__dirname, "../public")));
     //////////////////////////// AUTH ROUTES
-    const authRoutes = auth(passport);
+    const authRoutes = auth(passport, settings);
     app.use('/auth', authRoutes);
     ////////////////////////////
 

@@ -39,6 +39,10 @@
     }
 }
 
+#main-menu .MuiMenu-list {
+    min-width: 8rem;
+}
+
 .divider-bar {
     border: 2px solid $backgroundGrey;
     background-color: $backgroundGrey;

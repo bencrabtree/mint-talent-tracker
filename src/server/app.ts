@@ -6,6 +6,6 @@ export default (settings: any, session: any) => {
     let server = express();
     server.use(session);
     let googleAuth = passport(settings);
-    routes(server, googleAuth);
+    routes(server, googleAuth, settings);
     return server;
 }

@@ -53,7 +53,7 @@ export default function(settings: any) {
                 }
                 return token
             },
-            secretOrKey: 'my-secret-key'
+            secretOrKey: settings.auth.jwtSecret
         },
         async (payload, cb) => {
             let user: User = await userService.getUserByEmail(payload.email);
