@@ -1,18 +1,18 @@
 import Cookies from 'js-cookie';
 
-export const getSession = () => {
+export const isLoggedIn = () => {
     console.log(Cookies.get())
-    const jwt = Cookies.get('jwt');
-    console.log('getting session', jwt)
+    const token = Cookies.get('token');
+    console.log('getting session', token)
     let session;
     try {
-        if (jwt) {
-            const base64Url = jwt.split('.')[1]
+        if (token) {
+            const base64Url = token.split('.')[1]
             const base64 = base64Url.replace('-', '+').replace('_', '/')
             session = JSON.parse(window.atob(base64))
         }
     } catch (error) {
-        console.log('Getting JWT', error)
+        console.log('Getting token', error)
     }
     return session;
 }
@@ -28,5 +28,5 @@ export const getSession = () => {
 // }
 
 export const logOut = () => {
-    Cookies.remove('jwt')
+    Cookies.remove('token')
 }

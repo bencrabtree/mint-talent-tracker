@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 export async function isAuth(req, res, next) {        
-    const token = req.cookies['jwt'] || '';
+    const token = req.cookies['token'] || '';
     console.log()
     console.log(req.url)
     try {

@@ -17,6 +17,7 @@ MTTIcon.propTypes = {
         'mtg-logo-green',
         'search-icon',
         'add-icon',
+        'google-small',
         'default-avatar',
         'settings',
         'under-construction'

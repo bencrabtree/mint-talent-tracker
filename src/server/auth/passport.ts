@@ -49,7 +49,7 @@ export default function(settings: any) {
                 console.log('jwtFromRequest', req.url)
                 if (req && req.cookies){
                     console.log(req.cookies)
-                    token = req.cookies['jwt']
+                    token = req.cookies['token']
                 }
                 return token
             },

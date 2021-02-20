@@ -8,8 +8,8 @@ class UserService {
 
     getLoggedInUser = async (req: Request): Promise<User> => {
         try {
-            if (req.cookies.jwt) {
-                const decrypt = await jwt.verify(req.cookies.jwt, 'my-secret-key');
+            if (req.cookies.token) {
+                const decrypt = await jwt.verify(req.cookies.token, 'my-secret-key');
                 let user: User = await getRepository(User).findOne({ email: decrypt.email });
                 return user;
             }

@@ -1,14 +1,14 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { http } from '../../util/api';
-import { getSession } from '../../util/jwt';
+import { isLoggedIn } from '../../util/auth';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
     return (
         <Route
             {...rest}
             render={props =>
-                getSession() ? (
+                isLoggedIn() ? (
                     <Component {...props} />
                 ) : (
                     <LoginPage />

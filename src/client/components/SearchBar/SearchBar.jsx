@@ -4,6 +4,7 @@ import './search-bar.scss';
 import Autocomplete, { createFilterOptions }  from '@material-ui/lab/Autocomplete';
 import MTTIcon from '../common/MTTIcon/MTTIcon';
 import { useAppState } from '../../store';
+import { isLoggedIn } from '../../util/auth';
 import { TextField } from '@material-ui/core';
 
 const SearchBar = ({ placeholder, onSubmit, onAddNewLead }) => {
@@ -16,33 +17,6 @@ const SearchBar = ({ placeholder, onSubmit, onAddNewLead }) => {
         { full_name: "Benjamin Crabtree", something: 'hello' },
         { full_name: "Derek Jeter", something: 'whatever' },
         { full_name: "Benjamin Crabtree", something: 'hello' },
-        { full_name: "Derek Jeter", something: 'whatever' },
-        { full_name: "Benjamin Crabtree", something: 'hello' },
-        { full_name: "Derek Jeter", something: 'whatever' },
-        { full_name: "Benjamin Crabtree", something: 'hello' },
-        { full_name: "Derek Jeter", something: 'whatever' },
-        { full_name: "Benjamin Crabtree", something: 'hello' },
-        { full_name: "Derek Jeter", something: 'whatever' },
-        { full_name: "Benjamin Crabtree", something: 'hello' },
-        { full_name: "Derek Jeter", something: 'whatever' },
-        { full_name: "Benjamin Crabtree", something: 'hello' },
-        { full_name: "Derek Jeter", something: 'whatever' },
-        { full_name: "Benjamin Crabtree", something: 'hello' },
-        { full_name: "Derek Jeter", something: 'whatever' },
-        { full_name: "Benjamin Crabtree", something: 'hello' },
-        { full_name: "Derek Jeter", something: 'whatever' },
-        { full_name: "Benjamin Crabtree", something: 'hello' },
-        { full_name: "Derek Jeter", something: 'whatever' },
-        { full_name: "Benjamin Crabtree", something: 'hello' },
-        { full_name: "Derek Jeter", something: 'whatever' },
-        { full_name: "Benjamin Crabtree", something: 'hello' },
-        { full_name: "Derek Jeter", something: 'whatever' },
-        { full_name: "Benjamin Crabtree", something: 'hello' },
-        { full_name: "Derek Jeter", something: 'whatever' },
-        { full_name: "Benjamin Crabtree", something: 'hello' },
-        { full_name: "Derek Jeter", something: 'whatever' },
-        { full_name: "Benjamin Crabtree", something: 'hello' },
-        { full_name: "Derek Jeter", something: 'whatever' },
     ]
 
     /**
@@ -70,9 +44,10 @@ const SearchBar = ({ placeholder, onSubmit, onAddNewLead }) => {
             if (fullRoster.find(x => x.full_name.toLowerCase() === val.toLowerCase())) {
                 onSubmit(val);
                 return;
+            } else if (isLoggedIn()) {
+                onAddNewLead(val);            
             }
-            onAddNewLead(val);            
-        } else if (val && val.inputValue) {
+        } else if (val && val.inputValue && isLoggedIn()) {
             onAddNewLead(val.inputValue);
         } else if (fullRoster.find(x => x.full_name.toLowerCase() === val?.full_name?.toLowerCase())) {
             onSubmit(val);
@@ -99,7 +74,7 @@ const SearchBar = ({ placeholder, onSubmit, onAddNewLead }) => {
     const generateFilterOptions = (options, params) => {
         const filtered = filter(options, params);
 
-        if (params.inputValue !== '') {
+        if (params.inputValue !== '' && isLoggedIn()) {
           filtered.push({
             inputValue: params.inputValue,
             full_name: `Create New Lead: "${params.inputValue}"`,

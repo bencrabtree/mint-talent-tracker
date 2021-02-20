@@ -46,4 +46,7 @@
     .add-icon {
         @include mttIcon('add-icon')
     }
+    .google-small {
+        @include mttIcon('google-small');
+    }
 }

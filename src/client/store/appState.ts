@@ -25,8 +25,13 @@ const useAppState = () => {
         }
     }
 
+    const setLoading = (isLoading) => {
+        setState(state => ({ ...state, loading: isLoading }))
+    }
+
     return {
         loading: state.loading,
+        setLoading,
         userProfile: state.userProfile,
         fullRoster: state.fullRoster,
         allTags: state.allTags,

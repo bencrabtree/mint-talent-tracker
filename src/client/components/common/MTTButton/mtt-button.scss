@@ -19,6 +19,17 @@
         }
     }
 
+    &.secondary .MuiButton-root {
+        cursor: pointer;
+        color: $notFullyBlack;
+        background-color: transparent;
+        border: 2px solid $backgroundDarkGrey;
+
+        &:hover {
+            background-color: rgba(0,0,0,.04) !important;
+        }
+    }
+
     &.disabled {
         cursor: not-allowed;
         pointer-events: none;
