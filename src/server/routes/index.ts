@@ -2,6 +2,8 @@ import express, { Router } from 'express';
 const path = require("path");
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage() });
 import auth from './auth';
 import cors from 'cors';
 import ClientController from '../controllers/ClientController';
@@ -18,8 +20,8 @@ export default (app, passport, settings) => {
         next();
     });
     app.use(cookieParser());
-    app.use(bodyParser.json({ limit: '50mb' }));
-    app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.json());
     app.use(passport.initialize());
     app.use(passport.session());
     // app.get('*', isAuth);
@@ -31,12 +33,13 @@ export default (app, passport, settings) => {
     ////////////////////////////
 
     router.get('/roster/all', ClientController.getFullRoster);
-    router.put('/roster/new', passport.authenticate('jwt', { session: false }), ClientController.addClient);
+    router.put('/roster/new', passport.authenticate('jwt', { session: false }), upload.fields([{ name: 'photo_uri', maxCount: 1 }]), ClientController.addClient);
     router.get('/roster/new-lead-model', passport.authenticate('jwt', { session: false }), ClientController.getNewLeadModel);
+    router.get('/roster/:artistName', ClientController.getByName);
 
     router.get('/tags/all', TagController.getAll);
 
-    router.get('/user/current', UserController.getLoggedInUser)
+    router.get('/user/current', UserController.getLoggedInUser);
 
     ////////////////////////////
     app.use('/', router);

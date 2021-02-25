@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import '../common/MTTModal/mtt-modal.scss';
 import './new-lead-modal.scss';
 import { useAppState } from '../../store';
 import { Modal, TextField, Chip } from '@material-ui/core';
-import MTTModal from '../common/MTTModal/MTTModal';
 import { Autocomplete } from '@material-ui/lab';
 import MTTButton from '../common/MTTButton/MTTButton';
 import MTTLoading from '../common/MTTLoading/MTTLoading';
 import MTTInput from '../common/MTTInput/MTTInput';
 import MTTDropzone from '../common/MTTDropzone/MTTDropzone';
-import { getLabel } from '../../util/constants';
-import { http } from '../../util/api';
 import { cloneDeep } from 'lodash';
+import { getSocial, getLabel } from '../../../shared/util/constants';
+import { Client } from '../../../shared/dto';
 
 const NewLeadModal = ({
     isOpen,
@@ -22,44 +22,38 @@ const NewLeadModal = ({
     /**
      * 
      */
-    const [ newLead, setNewLead ] = useState([]);
-    const [ model, setModel ] = useState([]);
+    const [ newLead, setNewLead ] = useState(new Client());
     const [ loading, setLoading ] = useState(false);
+    const [ errorMessage, setErrorMessage ] = useState();
+    const [ currentTab, setCurrentTab ] = useState(0);
     const { allTags, fullRoster } = useAppState();
+    const tabs = [
+        { id: 0, label: "Info" },
+        { id: 1, label: "Social" },
+        { id: 2, label: "Tags" }
+    ]
 
     useEffect(() => {
-        getNewLeadModel();
+        let client = new Client();
+        client.full_name = artistName;
+        setNewLead(client);
+        setCurrentTab(0);
     }, [ isOpen ]);
-
-    const getNewLeadModel = async () => {
-        setLoading(true);
-        try {
-            const { status, data } = await http.get('/roster/new-lead-model');
-            if (data && status === 200) {
-                console.log("GetNewLeadModel: Success:", status);
-                let tempModel = data;
-                setModel(tempModel);
-                const idx = tempModel.findIndex(x => x.id === 'full_name');
-                tempModel[idx].data = artistName;
-                tempModel = tempModel.concat([
-                    { id: "notes", data: "" }
-                ]);
-                setNewLead(tempModel);
-                setLoading(false);
-            } else {
-                console.log("GetNewLeadModel: BadResponse:", status)
-            }
-        } catch (error) {
-            console.log("GetNewLeadModel:", error)
-        }
-    }
 
     /**
      * 
      */
     const handleSubmit = () => {
-        onSubmit(newLead);
-        onClose();
+        if (!validateTab(0)) {
+            setErrorMessage('Artist name and photo are required.')
+        } else if (!validateTab(1)) {
+            setErrorMessage('At least one social is required.')
+        } else if (!validateTab(2)) {
+            setErrorMessage('At least one artist tag is required.')
+        } else {
+            onSubmit(newLead);
+            onClose();
+        }
     }
 
     /**
@@ -73,79 +67,58 @@ const NewLeadModal = ({
      * 
      */
     const handleInputChange = (id, value) => {
-        console.log(newLead)
         let tempModel = cloneDeep(newLead);
-        const idx = tempModel.findIndex(x => x.id === id);
-        tempModel[idx].data = value;
-        console.log(id, value, tempModel)
+        if (id === 'photo_uri') {
+            console.log('photo val', value)
+        }
+        tempModel[id] = value;
+        if (validateTab(currentTab)) setErrorMessage();
         setNewLead(tempModel);
     }
 
-    /**
-     * 
-     */
-    const generateNewLeadForm = () => {
-        return (
-            <div className='new-lead-inputs'>
-                { model.map((elt, key) => {
-                    if (getLabel[elt.id]) {
-                        return (
-                            <MTTInput
-                                key={key}
-                                id={elt.id}
-                                label={getLabel[elt.id]}
-                                value={elt.data}
-                                onChange={ handleInputChange }
-                            />
-                        )
+    //
+    const validateTab = id => {
+        switch (id) {
+            case 0:
+                return newLead.full_name && newLead.photo_uri;
+            case 1:
+                let isValid = false;
+                getSocial.forEach(elt => {
+                    if (newLead[elt]) {
+                        isValid = true;
                     }
-                })}
-            </div>
-        )
+                });
+                return isValid;
+            case 2:
+                return newLead.tags && newLead.tags.length > 0;
+        }
     }
 
-    /**
-     * 
-     */
-    const generateNewLeadExtras = () => {
+    const generateTabClassName = id => {
+        let className = "tab-content";
+        if (currentTab === id) className += " active";
+        if (!validateTab(id)) className += " invalid";
+        return className;
+    }
+
+    const handleTabClick = id => {
+        setCurrentTab(id)
+    }
+
+    const generateTitle = id => {
+        return validateTab(id) ? `Artist ${tabs[id].label}` : 'Contains invalid data';
+    }
+
+    const renderTabs = () => {
         return (
-            <div className='new-lead-inputs'>
-                <MTTDropzone
-                    id="photo_uri"
-                    label="Artist Photo"
-                    message='Drag or click to upload'
-                    maxFileCount={1}
-                    onChange={ (id, value) => handleInputChange(id, value[0]) }
-                />
-                <MTTDropzone
-                    id="collection"
-                    label="Promotional Assets"
-                    message='Drag or click to upload'
-                    onChange={ handleInputChange }
-                />
-                <MTTInput
-                    id="notes"
-                    type='textarea'
-                    label="Notes"
-                    rows="10"
-                    data={newLead.find(x => x.id === 'notes')}
-                    onChange={ handleInputChange }
-                />
-                <Autocomplete
-                    multiple freeSolo
-                    id="tags"
-                    options={allTags}
-                    onChange={(e, val) => handleInputChange('tags', val)}
-                    defaultValue={newLead.find(x => x.id === 'tags')}
-                    renderTags={(value, getTagProps) =>
-                        value.map((option, index) => (
-                            <Chip variant="outlined" label={option} {...getTagProps({ index })} />
-                        ))
-                    }
-                    renderInput={(params) => (
-                        <TextField {...params} variant="filled" placeholder="Artist Tags" />
-                    )}
-                />
+            <div className='new-lead-tabs'>
+                { tabs.map((tab, key) => {
+                    return (
+                        <div key={key} className={generateTabClassName(tab.id)} onClick={ () => handleTabClick(tab.id) } title={generateTitle(tab.id)}>
+                            { tab.label }
+                        </div>
+                    )
+                })}
             </div>
         )
     }
@@ -158,27 +131,102 @@ const NewLeadModal = ({
                 </div>
             )
         } else {
-            return (
-                <div className='new-lead-form'>
-                    { generateNewLeadForm() }
-                    { generateNewLeadExtras() }
-                </div>
-            )
+            switch (currentTab) {
+                case 1:
+                    return (
+                        <div className='new-lead-form two-columns'>
+                            { getSocial.map((id, key) => (
+                                <MTTInput
+                                    id={id} key={key}
+                                    value={newLead[id]}
+                                    label={ getLabel[id] }
+                                    onChange={ handleInputChange }
+                                />
+                            ))}
+                        </div>
+                    );
+                case 2:
+                    return (
+                        <div className='new-lead-form'>
+                            <Autocomplete
+                                multiple freeSolo
+                                id="tags"
+                                options={allTags}
+                                onChange={(e, val) => handleInputChange('tags', val)}
+                                defaultValue={newLead.tags}
+                                renderTags={(value, getTagProps) =>
+                                    value.map((option, index) => (
+                                        <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                                    ))
+                                }
+                                renderInput={(params) => (
+                                    <TextField {...params} variant="filled" placeholder="Artist Tags" />
+                                )}
+                            />
+                            <MTTInput
+                                id="notes"
+                                type='textarea'
+                                label="Notes"
+                                rows="10"
+                                value={newLead.notes}
+                                onChange={ handleInputChange }
+                            />
+                        </div>
+                    )
+                case 0:
+                default:
+                    return (
+                        <div className='new-lead-form'>
+                            <MTTInput
+                                id='full_name'
+                                label="Artist Name"
+                                value={newLead.full_name}
+                                onChange={ handleInputChange }
+                            />
+                            <MTTInput
+                                id='contact'
+                                label="Contact"
+                                value={newLead.contact}
+                                onChange={ handleInputChange }
+                            />
+                            <MTTInput
+                                id='description'
+                                label="Description"
+                                type="textarea"
+                                value={newLead.description}
+                                onChange={ handleInputChange }
+                            />
+                            <MTTDropzone
+                                id='photo_uri'
+                                message="Drag or Select Artist Photo"
+                                maxFileCount={1}
+                                onChange={ handleInputChange }
+                            />
+                        </div>
+                    );
+            }
         }
     }
 
     return (
-            <MTTModal
-                isOpen={isOpen}
+            <Modal
+                open={isOpen}
                 onClose={onClose}
-                disableBackdropClick={true}
-                title="Add New Lead"
-                content={renderContent()}
-                footerElts={[
-                    <MTTButton label="Save" onClick={handleSubmit} disabled={true} />,
-                    <MTTButton label="Cancel" onClick={handleClose} />
-                ]}
-            />
+                className='mtt-modal-wrapper'
+                disableBackdropClick
+            >
+                <div className="newlead-content mtt-modal-content">
+                    { renderTabs() }
+                    { renderContent() }
+                    <div className='mtt-modal-footer'>
+                        <div className='error-box'>
+                            { errorMessage }
+                        </div>
+                        <MTTButton label="Cancel" onClick={handleClose} title="Abandon new lead" />
+                        <MTTButton label="Submit" onClick={handleSubmit} title="Submit new lead" />
+                    </div>
+                </div>
+            </Modal>
     )
 }
 

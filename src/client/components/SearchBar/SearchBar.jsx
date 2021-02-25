@@ -8,16 +8,9 @@ import { isLoggedIn } from '../../util/auth';
 import { TextField } from '@material-ui/core';
 
 const SearchBar = ({ placeholder, onSubmit, onAddNewLead }) => {
-    // const { fullRoster } = useAppState();
+    const { fullRoster } = useAppState();
     const [ value, setValue ] = useState();
     const filter = createFilterOptions();
-    const fullRoster = [
-        { full_name: "Benjamin Crabtree", something: 'hello' },
-        { full_name: "Derek Jeter", something: 'whatever' },
-        { full_name: "Benjamin Crabtree", something: 'hello' },
-        { full_name: "Derek Jeter", something: 'whatever' },
-        { full_name: "Benjamin Crabtree", something: 'hello' },
-    ]
 
     /**
      * Triggers when user types in field

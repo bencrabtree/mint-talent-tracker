@@ -33,7 +33,6 @@ const SignIn = ({
                 </div>
                 <div className='sign-in-footer'>
                     <span>
-                        If you are signed in on Chrome, you will be automatically signed in with that account
                     </span>
                 </div>
             </div>

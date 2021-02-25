@@ -1,9 +1,7 @@
 import Cookies from 'js-cookie';
 
 export const isLoggedIn = () => {
-    console.log(Cookies.get())
     const token = Cookies.get('token');
-    console.log('getting session', token)
     let session;
     try {
         if (token) {

@@ -4,16 +4,19 @@ import { Tag } from ".";
 @Entity()
 export class Photo extends BaseEntity {
 
-    constructor(file_path, alt_text?) {
+    constructor(key, alt_text?) {
         super();
 
-        this.file_path = file_path;
+        this.key = key;
         this.alt_text = alt_text || "";
         this.upload_date = new Date();
     }
 
     @PrimaryGeneratedColumn()
     id: number;
+
+    @Column("character varying")
+    key: string;
 
     @Column("character varying")
     alt_text: string;
@@ -24,7 +27,4 @@ export class Photo extends BaseEntity {
     @Column("character varying", { nullable: true, array: true })
     @OneToMany(type => Tag, tag => tag.name)
     tags: number[];
-
-    @Column("character varying")
-    file_path: string;
 }

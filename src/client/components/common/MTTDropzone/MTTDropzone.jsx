@@ -13,25 +13,19 @@ const MTTDropzone = ({
 }) => {
     const [ acceptedFiles, setAcceptedFiles ] = useState([]);
 
-    const onDrop = (uploadedFiles) => {
+    const onDrop = async (uploadedFiles) => {
         let tempFiles = clone(acceptedFiles)
-        uploadedFiles.forEach((file) => {
-            const reader = new FileReader()
-    
-            reader.onabort = () => console.log('file reading was aborted')
-            reader.onerror = () => console.log('file reading has failed')
-            reader.onload = () => {
-                // Do whatever you want with the file contents
-                const binaryStr = reader.result
-                console.log(binaryStr)
-            }
-            if (tempFiles.length < maxFileCount) {
-                tempFiles.push(file.name)
-                onChange(id, tempFiles);
-                setAcceptedFiles(tempFiles);
-            }
-            reader.readAsArrayBuffer(file)
-        })
+        let fsPromise = new Promise((resolve, reject) => {
+            uploadedFiles.forEach(async (file, idx, arr) => {
+                tempFiles.push(file);
+                if (idx === arr.length - 1) resolve();
+            });
+        });
+        fsPromise.then(() => {
+            onChange(id, tempFiles);
+            setAcceptedFiles(tempFiles);
+            console.log(tempFiles)
+        });
     };
 
     const generateAcceptedFiles = () => {
@@ -40,7 +34,7 @@ const MTTDropzone = ({
                 <div className='uploaded-files' key={key}>
                     <span onClick={() => removeFile(file)}>X</span>
                     <p>
-                        { file }
+                        { file.name }
                     </p>
                 </div>
             )
@@ -88,7 +82,6 @@ MTTDropzone.propTypes = {
 }
 
 MTTDropzone.defaultProps = {
-    label: "File Upload",
     message: "Drag n Drop your files here or click to upload",
     maxFileCount: Number.POSITIVE_INFINITY,
 }

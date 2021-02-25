@@ -8,7 +8,8 @@ const AppContextProvider = ({ children }) => {
         loading: true,
         userProfile: {},
         fullRoster: [],
-        allTags: []
+        allTags: [],
+        selectedArtist: null
     });
 
     useEffect(() => {
@@ -23,6 +24,7 @@ const AppContextProvider = ({ children }) => {
                     userProfile: user,
                     fullRoster: roster,
                     allTags: tags,
+                    selectedArtist: null,
                     loading: false
                 })
             } catch (error) {

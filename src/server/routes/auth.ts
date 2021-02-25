@@ -18,7 +18,6 @@ export default function(googleAuth, settings) {
             try {
                 googleAuth.authenticate('google', { failureRedirect: '/auth/error' }, async (err, user, info) => {
                     if (err || !user) {
-                        console.log('-- NO USER HERE');
                         return res.redirect('/auth/error');
                     }
                     // generate a signed json web token with the contents of user object and return it in the response

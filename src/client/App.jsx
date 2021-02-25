@@ -1,13 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Home } from './pages';
+import { Home, ArtistPage } from './pages';
 import './assets/sass/general.scss';
-import PrivateRoute from './components/PrivateRoute/PrivateRoute';
-import SignIn from './pages/signin/SignIn';
 import MainHeader from './components/MainHeader/MainHeader';
 import { useAppState } from './store/index';
 import MTTLoading from './components/common/MTTLoading/MTTLoading';
-
 
 const App = ({}) => {
     const { loading } = useAppState();
@@ -21,11 +18,14 @@ const App = ({}) => {
             return (
                 <div className='app'>
                     <MainHeader />
-                    <Router>
-                        <Switch>
-                            <Route component={ Home } path="/" />
-                        </Switch>
-                    </Router>
+                    <div className='main-app'>
+                        <Router>
+                            <Switch>
+                                <Route component={ ArtistPage } path="/artist/:artistName" />
+                                <Route component={ Home } path="/" />
+                            </Switch>
+                        </Router>
+                    </div>
                 </div>
             )
         }

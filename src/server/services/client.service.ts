@@ -1,5 +1,7 @@
 import { User, Client, Lead } from '../../shared/dao';
 import { getRepository } from "typeorm";
+import { s3Service } from './s3.service';
+import { Photo } from '../../shared/dao';
 
 class ClientService {
     constructor() {}
@@ -27,6 +29,17 @@ class ClientService {
     }
 
     //
+    getClientByName = async (fullName: string): Promise<Client> => {
+        try {
+            let client = await getRepository(Client).findOne({ full_name: fullName });
+            return client;
+        } catch (error) {
+            console.log('ClientService: GetClientByName:', error);
+            return null;
+        }
+    }
+
+    //
     removeClientById = async (id: number): Promise<void> => {
         try {
             let client = await getRepository(Client).findOne(id);
@@ -38,10 +51,12 @@ class ClientService {
     }
 
     //
-    addClient = async (client: object): Promise<Client> => {
+    addClient = async (client: Client, photo_uri: object[]): Promise<Client> => {
         try {
-            console.log(client)
+            let uri = await s3Service.uploadPhoto(photo_uri[0], client.full_name);
+            let artistPhoto = new Photo(uri);
             let clientToAdd = new Client(client);
+            clientToAdd.photo_uri = artistPhoto.key;
             await getRepository(Client).save(clientToAdd);
             return clientToAdd;
         } catch (error) {

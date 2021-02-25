@@ -46,9 +46,7 @@ export default function(settings: any) {
         {
             jwtFromRequest: function(req) { // tell passport to read JWT from cookies
                 var token = null;
-                console.log('jwtFromRequest', req.url)
                 if (req && req.cookies){
-                    console.log(req.cookies)
                     token = req.cookies['token']
                 }
                 return token

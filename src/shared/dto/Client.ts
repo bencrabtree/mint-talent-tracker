@@ -1,11 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, OneToMany, OneToOne } from "typeorm";
 import { Photo, Tag } from '.';
 
-@Entity()
-export class Client extends BaseEntity {
+export class Client {
 
     constructor(params?) {
-        super();
 
         if (params) {
             this.full_name = params.full_name;
@@ -13,8 +10,7 @@ export class Client extends BaseEntity {
             this.description = params.description;
             this.contact = params.contact;
             this.contact_email = params.contact_email;
-            this.collection = [];
-            // params.collection?.map(photo => new Photo(photo).id) || 
+            this.collection = params?.collection || [];
             this.description_short = params.description_short;
             this.website = params.website;
             this.twitter = params.twitter;
@@ -26,69 +22,29 @@ export class Client extends BaseEntity {
             this.soundcloud = params.soundcloud;
             this.tiktok = params.tiktok;
             this.youtube = params.youtube;
-            this.tags = params.tags?.split(',') || []
+            this.tags = params?.tags || [];
         }
     }
 
-    @PrimaryGeneratedColumn()
     id: number;
-
-    @Column({ nullable: false, type: "character varying" })
     full_name: string;
-
-    @Column({ nullable: true, type: "character varying" })
     contact: string;
-
-    @Column({ nullable: true, type: "character varying" })
     contact_email: string;
-
-    @Column({ nullable: true, type: "character varying" })
-    @OneToOne(type => Photo, photo => photo.key)
-    photo_uri: string;
-
-    @Column("integer", { nullable: true, array: true })
-    @OneToMany(type => Photo, photo => photo.key)
-    collection: string[];
-
-    @Column({ nullable: true, type: "character varying" })
+    photo_uri: number;
+    collection: number[] = [];
     description: string;
-
-    @Column({ nullable: true, type: "character varying" })
     description_short: string;
-
-    @Column({ nullable: true, type: "character varying" })
     website: string;
-
-    @Column({ nullable: true, type: "character varying" })
     twitter: string;
-
-    @Column({ nullable: true, type: "character varying" })
     instagram: string;
-
-    @Column({ nullable: true, type: "character varying" })
     facebook: string;
-
-    @Column({ nullable: true, type: "character varying" })
     snapchat: string;
-
-    @Column({ nullable: true, type: "character varying" })
     spotify: string;
-
-    @Column({ nullable: true, type: "character varying" })
     apple_music: string;
-
-    @Column({ nullable: true, type: "character varying" })
     soundcloud: string;
-
-    @Column({ nullable: true, type: "character varying" })
     tiktok: string;
-
-    @Column({ nullable: true, type: "character varying" })
     youtube: string;
-
-    @Column("character varying", { nullable: true, array: true })
-    @OneToMany(type => Tag, tag => tag.name)
-    tags: string[];
+    tags: string[] = [];
 
     toEditableArray() {
         const values = Object.keys(this);

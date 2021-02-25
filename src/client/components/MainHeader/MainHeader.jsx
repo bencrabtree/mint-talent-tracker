@@ -14,14 +14,14 @@ import Avatar from '../common/Avatar/Avatar';
 
 const MainHeader = ({ }) => {
     const history = useHistory();
-    const { addNewClient, userProfile, setLoading } = useAppState();
+    const { addNewClient, userProfile, setLoading, setSelectedArtist} = useAppState();
     const [ userMenuRef, setUserMenuRef ] = useState();
     const [ searchAddArtist, setSearchAddArtist ] = useState();
     const [ newLeadModalIsOpen, setNewLeadModalIsOpen ] = useState(false);
 
     const navigateBackHome = () => {
-        if (history.location.pathname != "/") {
-            history.push("/");
+        if (history.location.pathname != "/home") {
+            history.push("/home");
             history.go(0);
         }
     }
@@ -29,7 +29,7 @@ const MainHeader = ({ }) => {
     const handleUserLogout = async () => {
         setLoading(true);
         logOut();
-        history.push('/');
+        history.push('/home');
         history.go(0)
     }
 
@@ -49,15 +49,12 @@ const MainHeader = ({ }) => {
     }
 
     const handleNewLeadModalSubmit = async (value) => {
-        let newClient = value.reduce((acc, elt) => {
-            acc[elt.id] = elt.data;
-            return acc;
-        }, {});
-        await addNewClient(newClient);
+        await addNewClient(value);
     }
 
-    const handleSearchBarSubmit = (query) => {
-        console.log('fOUND This', query)
+    const handleSearchBarSubmit = (artist) => {
+        history.push(`/artist/${encodeURIComponent(artist.full_name)}`);
+        history.go(0);
     }
 
     const handleUserMenuToggle = (e) => {
@@ -75,11 +72,11 @@ const MainHeader = ({ }) => {
                     <MTTButton
                         label="New Lead"
                         onClick={ () => setNewLeadModalIsOpen(true) }
-                        color="primary"
+                        title="Create new lead"
                     />
                     <span className='divider-bar' />
                     <div className='user-profile-dropdown' onClick={ handleUserMenuToggle }>
-                        <Avatar uri={ userProfile.photo_uri } title={ userProfile.email } />
+                        <Avatar uri={ userProfile.photo_uri } title="My account" />
                     </div>
                     <Menu
                         id="main-menu"
@@ -91,7 +88,7 @@ const MainHeader = ({ }) => {
                         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                     >
                         <MenuItem onClick={handleUserMenuClose}>Preferences</MenuItem>
-                        <MenuItem onClick={handleUserMenuClose}>My roster</MenuItem>
+                        <MenuItem onClick={handleUserMenuClose}>Roster</MenuItem>
                         <MenuItem onClick={handleUserMenuClose}>Calendar</MenuItem>
                         <MenuItem onClick={handleUserLogout} className="logout-menu-item" >Log Out</MenuItem>
                     </Menu>
@@ -109,7 +106,7 @@ const MainHeader = ({ }) => {
                     <MTTButton
                         label="Login"
                         onClick={ handleUserLogin }
-                        color="secondary"
+                        type="secondary"
                     />
                 </div>
             )

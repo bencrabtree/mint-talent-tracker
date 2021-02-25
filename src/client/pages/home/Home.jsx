@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './home.scss';
 import { useAppState } from '../../store/index';
-import MainHeader from '../../components/MainHeader/MainHeader';
-import MTTLoading from '../../components/common/MTTLoading/MTTLoading';
+import { getArtistImageSrc } from '../../util/constants';
 
 const Home = ({ }) => {
+    const { fullRoster, selectedArtist } = useAppState();
     const [ contentId, setContentId ] = useState('home');
 
     const renderAppContent = () => {}

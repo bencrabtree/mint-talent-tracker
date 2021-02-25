@@ -1,15 +1,25 @@
 import { useContext } from 'react';
 import { AppContext } from './appContext';
-import { Client } from '../../shared/dao';
+import { Client } from '../../shared/dto';
 import { cloneDeep } from 'lodash';
 import { http } from '../util/api';
+import { AxiosRequestConfig } from 'axios';
 
 const useAppState = () => {
     const [ state, setState ] = useContext(AppContext);
 
-    const addNewClient = async (client: Client) => {
+    const addNewClient = async (client) => {
         try {
-            const { data, status } = await http.put('/roster/new', client);
+            let formData = new FormData();
+            Object.keys(client).forEach(key => {
+                console.log(key, client[key])
+                if (key === 'photo_uri') {
+                    formData.append(key, client[key][0], client[key][0].name)
+                } else {
+                    formData.append(key, client[key])
+                }
+            })
+            const { data, status } = await http.put('/roster/new', formData);
             if (status === 200) {
                 console.log("AddNewClient: Success:", status);
                 let tempRoster = cloneDeep(state.fullRoster);
@@ -29,13 +39,22 @@ const useAppState = () => {
         setState(state => ({ ...state, loading: isLoading }))
     }
 
+    const setSelectedArtist = artistName => {
+        if (state.fullRoster.find(x => x.full_name === artistName)) {
+            setState(state => ({ ...state, selectedArtist: artistName }));
+        }
+    }
+
     return {
         loading: state.loading,
         setLoading,
         userProfile: state.userProfile,
         fullRoster: state.fullRoster,
         allTags: state.allTags,
-        addNewClient
+        addNewClient,
+        //
+        selectedArtist: state.selectedArtist,
+        setSelectedArtist
     }
 }
 

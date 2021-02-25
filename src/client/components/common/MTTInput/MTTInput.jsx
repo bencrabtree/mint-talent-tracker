@@ -36,7 +36,7 @@ const MTTInput = ({
                     value={input}
                     rows={rows}
                     onChange={ handleInputChange }
-                    placeholder={ input === "" ? placeholder : "" }
+                    placeholder={ !input || input === "" ? placeholder : "" }
                     onFocus={e => e.target.placeholder = "" }
                     onBlur={e => input === "" ? (e.target.placeholder = placeholder) : null }
                     disabled={ isDisabled }
@@ -49,7 +49,7 @@ const MTTInput = ({
                     type='text'
                     value={input}
                     onChange={ handleInputChange }
-                    placeholder={ input === "" ? placeholder : "" }
+                    placeholder={ !input || input === "" ? placeholder : "" }
                     onFocus={e => e.target.placeholder = "" }
                     onBlur={e => input === "" ? (e.target.placeholder = placeholder) : null }
                     disabled={ isDisabled }
