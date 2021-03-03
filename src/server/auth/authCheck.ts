@@ -5,7 +5,7 @@ export async function isAuth(req, res, next) {
     console.log()
     console.log(req.url)
     try {
-        if (req.url.startsWith('/auth') || req.url.startsWith('/js/app.js')) {
+        if (req.url.startsWith('/auth') || req.url.startsWith('/app.bundle.js')) {
             return next();
         } else if (!token) {
             return res.redirect('/auth/signin')

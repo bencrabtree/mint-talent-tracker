@@ -20,7 +20,7 @@ const SignIn = ({
 
     return (
         <div className='sign-in'>
-            <div className='sign-in-content container-box'>
+            <div className='sign-in-content card'>
                 <div className='sign-in-header'>
                     <h1 className='sign-in-title'>Log in to Mint Talent Tracker</h1>
                     <MTTLogo />

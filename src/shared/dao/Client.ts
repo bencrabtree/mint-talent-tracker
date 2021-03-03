@@ -11,8 +11,9 @@ export class Client extends BaseEntity {
             this.full_name = params.full_name;
             this.photo_uri = params.photo_uri;
             this.description = params.description;
-            this.contact = params.contact;
-            this.contact_email = params.contact_email;
+            this.manager_name = params.manager_name;
+            this.manager_email = params.manager_email;
+            this.manager_phone = params.manager_phone;
             this.collection = [];
             // params.collection?.map(photo => new Photo(photo).id) || 
             this.description_short = params.description_short;
@@ -37,10 +38,13 @@ export class Client extends BaseEntity {
     full_name: string;
 
     @Column({ nullable: true, type: "character varying" })
-    contact: string;
+    manager_name: string;
 
     @Column({ nullable: true, type: "character varying" })
-    contact_email: string;
+    manager_email: string;
+
+    @Column({ nullable: true, type: "character varying" })
+    manager_phone: string;
 
     @Column({ nullable: true, type: "character varying" })
     @OneToOne(type => Photo, photo => photo.key)

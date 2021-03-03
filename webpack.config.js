@@ -66,8 +66,8 @@ const clientConfig = {
         }
     },
     output: {
-        filename: 'app.js',
-        path: path.resolve(__dirname, 'public/js')
+        filename: 'app.bundle.js',
+        path: path.resolve(__dirname, 'public')
     },
     plugins: [
         new webpack.ProvidePlugin({

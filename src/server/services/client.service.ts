@@ -66,6 +66,20 @@ class ClientService {
     }
 
     //
+    updateClient = async (full_name: string, updates: object): Promise<Client> => {
+        try {
+            let client: Client = await this.getClientByName(full_name);
+            Object.keys(updates).forEach(update => {
+                client[update] = updates[update];
+            });
+            await getRepository(Client).save(client);
+            return client;
+        } catch (error) {
+            console.log('ClientService: UpdateClient:', error)
+        }
+    }
+
+    //
     getModel = async () => {
         try {
             let clientModel = new Client();

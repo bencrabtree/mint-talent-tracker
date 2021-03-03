@@ -2,17 +2,20 @@
 
 .mtt-button {
     margin: .5rem 1rem;
+    white-space: nowrap;
 
     .MuiButton-root {
-        padding: .5rem 1.5rem;
+        padding: .5rem 1rem;
         text-transform: none;
         font-size: 1rem;
+        min-width: 5rem;
     }
 
     &.primary .MuiButton-root {
         cursor: pointer;
         color: white;
         background-color: $mintGreen;
+        border: 2px solid $mintGreen;
 
         &:hover {
             background-color: darken($mintGreen, 5%);
@@ -27,6 +30,17 @@
 
         &:hover {
             background-color: rgba(0,0,0,.04) !important;
+        }
+    }
+
+    &.tertiary .MuiButton-root {
+        cursor: pointer;
+        color: white;
+        background-color: $statusBlue;
+        border: 2px solid $statusBlue;
+
+        &:hover {
+            background-color: darken($statusBlue, 5%);
         }
     }
 
