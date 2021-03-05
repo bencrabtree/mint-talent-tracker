@@ -39,7 +39,6 @@
 
         & > div {
             padding: 1rem;
-            width: 50%;
             cursor: pointer;
             display: flex;
             flex-direction: row;
@@ -47,8 +46,9 @@
             align-items: center;
             border-radius: 6px;
 
-            h2 {
+            h3 {
                 font-weight: normal;
+                margin-left: .5rem;
             }
         }
     }

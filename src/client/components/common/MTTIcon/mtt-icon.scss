@@ -49,4 +49,7 @@
     .google-small {
         @include mttIcon('google-small');
     }
+    .info {
+        @include mttIcon('info-icon', 1.5, 1.5);
+    }
 }

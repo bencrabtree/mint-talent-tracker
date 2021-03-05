@@ -13,7 +13,19 @@
     }
 
     .artist-header {
-        padding: 2rem;
+        padding: 1rem 2rem;
+
+        .artist-name {
+            span {
+                display: flex;
+                align-items: center;
+
+                .mtt-icon {
+                    margin-left: .5rem;
+                    cursor: pointer;
+                }
+            }
+        }
     }
 
     .lead-content {
@@ -79,11 +91,11 @@
         flex-direction: column;
         margin-right: 3rem;
 
-        h3 {
+        .artist-stat-label {
             margin-bottom: .5rem;
         }
 
-        h2, h3 {
+        .artist-stat-label, .artist-stat-value {
             font-weight: normal;
         }
     }

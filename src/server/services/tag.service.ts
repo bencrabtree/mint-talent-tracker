@@ -1,13 +1,16 @@
 import { getRepository } from 'typeorm';
-import { Tag } from '../../shared/dao';
+import { Tags } from '../../shared/util/types';
 
 class TagService {
-    constructor() {}
+    tags: string[];
+    constructor() {
+        this.tags = Tags;
+    }
 
     //
     getAll = () => {
         try {
-            let allTags = getRepository(Tag).find();
+            let allTags = this.tags;
             return allTags;
         } catch (error) {
             console.log("TagService: GetAll:", error);
@@ -16,13 +19,10 @@ class TagService {
     }
 
     //
-    createNewTags = (tags: string[]) => {
+    createNewTags = (tag: string) => {
         try {
-            tags.forEach(async tag => {
-                let tagToAdd = new Tag(tag);
-                await getRepository(Tag).save(tagToAdd);
-            });
-            return tags;
+            this.tags.push(tag);
+            return this.tags;
         } catch (error) {
             console.log('TagService: CreateNewTags:', error);
             return null;

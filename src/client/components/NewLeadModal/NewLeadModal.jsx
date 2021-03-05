@@ -106,7 +106,7 @@ const NewLeadModal = ({
     }
 
     const generateTitle = id => {
-        return validateTab(id) ? `Artist ${tabs[id].label}` : 'Contains invalid data';
+        return validateTab(id) ? `Artist ${tabs[id].label}` : 'This tab contains invalid or incomplete information.';
     }
 
     const renderTabs = () => {
@@ -222,7 +222,7 @@ const NewLeadModal = ({
                         <div className='error-box'>
                             { errorMessage }
                         </div>
-                        <MTTButton label="Cancel" onClick={handleClose} title="Abandon new lead" />
+                        <MTTButton label="Cancel" onClick={handleClose} title="Abandon new lead creation" />
                         <MTTButton label="Submit" onClick={handleSubmit} title="Submit new lead" />
                     </div>
                 </div>

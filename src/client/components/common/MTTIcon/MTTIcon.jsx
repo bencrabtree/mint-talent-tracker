@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './mtt-icon.scss';
 
-const MTTIcon = ({ type, style, onClick }) => {
+const MTTIcon = ({ type, style, onClick, title }) => {
 
     return (
-        <div className={`mtt-icon ${style}`} onClick={ onClick }>
+        <div className={`mtt-icon ${style}`} onClick={ onClick } title={title}>
             <div className={ type } />
         </div>
     )
@@ -20,12 +20,15 @@ MTTIcon.propTypes = {
         'google-small',
         'default-avatar',
         'settings',
-        'under-construction'
+        'under-construction',
+        'info'
     ]).isRequired,
     style: PropTypes.oneOf([
         "round",
         "rigid"
-    ])
+    ]),
+    title: PropTypes.string,
+    onClick: PropTypes.func
 }
 
 MTTIcon.defaultProps = {

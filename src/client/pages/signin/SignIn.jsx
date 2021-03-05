@@ -28,7 +28,7 @@ const SignIn = ({
                 <div className='sign-in-actions'>
                     <div className='continue-with-google' onClick={ handleGoogleLogin } >
                         <MTTIcon type='google-small' />
-                        <h2>Continue with Google</h2>
+                        <h3>Continue with Google</h3>
                     </div>
                 </div>
                 <div className='sign-in-footer'>
